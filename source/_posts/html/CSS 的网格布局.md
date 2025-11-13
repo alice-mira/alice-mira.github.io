@@ -1,3 +1,8 @@
+---
+title: CSS 的网格布局
+tags: [前端,html,css]
+---
+
 # [#](#f46ffd)[CSS 的网格布局](https://xplanc.org/primers/document/zh/03.HTML/02.%E6%A0%B7%E5%BC%8F/09.%E7%BD%91%E6%A0%BC%E5%B8%83%E5%B1%80.md#f46ffd)
 
 CSS 网格布局（Grid Layout）是一个强大的 2D 布局系统，可精确地控制页面的行和列布局，比 Flex 更适合结构化排布。

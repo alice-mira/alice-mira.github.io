@@ -1,3 +1,9 @@
+---
+title: CSS 的弹性布局
+tags: [前端,html,css]
+---
+
+
 # [#](#be5e5f)[CSS 的弹性布局](https://xplanc.org/primers/document/zh/03.HTML/02.%E6%A0%B7%E5%BC%8F/08.%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80.md#be5e5f)
 
 在此之前，我们写的页面上元素是按照先后顺序排列的，块元素总是占据一行，不受我们控制。 例如之前 [语义化](https://xplanc.org/primers/document/zh/03.HTML/01.%E5%9F%BA%E7%A1%80/90.%E8%AF%AD%E4%B9%89%E5%8C%96.md) 章节中的示例代码中，[`aside`](https://xplanc.org/primers/document/zh/03.HTML/EX.HTML%20%E5%85%83%E7%B4%A0/EX.aside.md) 块作为侧边栏，却并没有显示在侧边，而是单独占据一行。

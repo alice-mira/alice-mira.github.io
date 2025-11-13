@@ -1,3 +1,8 @@
+---
+title: Lua 的 Coroutine 模块
+tags: [lua, coroutine]
+---
+
 # [#](https://xplanc.org/primers/document/zh/09.Lua/92.%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/EX.coroutine-module.md#eb79b4)[Lua 的 Coroutine 模块](https://xplanc.org/primers/document/zh/09.Lua/92.%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/EX.coroutine-module.md#eb79b4)
 
 请查看 [Lua 标准库模块列表](https://xplanc.org/primers/document/zh/09.Lua/90.API%20%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C.md/01.Lua%20API%20%E7%9B%AE%E5%BD%95.md#b07e50) 了解更多相关 API。 
