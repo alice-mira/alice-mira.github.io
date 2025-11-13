@@ -1,6 +1,7 @@
 ---
 title: Bash 的 md5sum 命令
 tags: [linux,bash,md5sum]
+date: 2025-11-11 08:08:08
 ---
 
 

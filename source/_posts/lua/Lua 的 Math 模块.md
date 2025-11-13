@@ -1,6 +1,7 @@
 ---
 title: Lua 的 Math 模块
 tags: [lua, math]
+date: 2025-11-13 08:08:08
 ---
 
 # [#](https://xplanc.org/primers/document/zh/09.Lua/92.%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/EX.math-module.md#750363)[Lua 的 Math 模块](https://xplanc.org/primers/document/zh/09.Lua/92.%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/EX.math-module.md#750363)

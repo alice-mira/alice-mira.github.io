@@ -1,6 +1,7 @@
 ---
 title: Python学习基础语法
 tags: [后端,python]
+date: 2025-10-09 08:08:08
 ---
 
 ## 前言——为什么要学习Python

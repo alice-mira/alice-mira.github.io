@@ -1,6 +1,7 @@
 ---
 title: Bash 的 if 条件语句
 tags: [linux,bash]
+date: 2025-11-12 08:08:08
 ---
 
 # [#](#403d7c)[Bash 的 if 条件语句](https://xplanc.org/primers/document/zh/10.Bash/02.%E8%AF%AD%E6%B3%95/04.if%20%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5.md#403d7c)

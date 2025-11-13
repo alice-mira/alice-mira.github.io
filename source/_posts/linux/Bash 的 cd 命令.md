@@ -1,6 +1,7 @@
 ---
 title: Bash 的 cd 命令
 tags: [linux,bash,cd]
+date: 2025-11-13 08:08:08
 ---
 
 # [#](#f51e00)[Bash 的 cd 命令](https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.cd.md#f51e00)

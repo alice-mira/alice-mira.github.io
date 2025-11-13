@@ -1,6 +1,7 @@
 ---
 title: Bash 的 while 循环语句
 tags: [linux,bash]
+date: 2025-11-10 08:08:08
 ---
 
 # [#](#999d29)[Bash 的 while 循环语句](https://xplanc.org/primers/document/zh/10.Bash/02.%E8%AF%AD%E6%B3%95/05.while%20%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5.md#999d29)

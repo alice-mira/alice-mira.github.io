@@ -1,6 +1,7 @@
 ---
 title: Bash 的变量
 tags: [linux,bash]
+date: 2025-11-09 08:08:08
 ---
 
 # [#](#def1d8)[Bash 的变量](https://xplanc.org/primers/document/zh/10.Bash/01.%E5%9F%BA%E7%A1%80/02.%E5%8F%98%E9%87%8F.md#def1d8)
