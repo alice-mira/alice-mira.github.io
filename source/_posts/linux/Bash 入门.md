@@ -1,5 +1,5 @@
 ---
-title: Bash 的 base64 命令
+title: Bash 入门
 tags: [linux,bash,cd]
 date: 2025-11-15 23:32:16
 ---
