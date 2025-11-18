@@ -14,7 +14,10 @@
               h2.tag-name 
                 i.fas.fa-tag
                 |  #{page.tag}
-              .tag-description 共有 #{page.posts ? page.posts.length : 0} 篇文章
+              - var sortedTags = site.tags.toArray().sort(function(a, b) { return (b.posts ? b.posts.length : 0) - (a.posts ? a.posts.length : 0); })
+              each tag in sortedTags
+                if tag.name == page.tag
+                  .tag-description 共有 #{tag && tag.posts ? tag.posts.length : 0} 篇文章
             .tag-back
               a(href="/tags/")
                 i.fas.fa-arrow-left
@@ -48,6 +51,19 @@
                         a.read-more(href=url_for(post.path))
                           | 阅读全文 
                           i.fas.fa-arrow-right
+            p
+            .post-navigation
+              if page.prev
+                .post-nav.prev
+                  a(href=`/tags/${page.tag}/page/${page.prev}`)
+                    span.nav-label ← Previous
+                    span.nav-title= page.prev.title
+
+              if page.next
+                .post-nav.next
+                  a(href=`/tags/${page.tag}/page/${page.next}`)
+                    span.nav-label Next →
+                    span.nav-title= page.next.title
           else
             .no-posts
               .empty-state
