@@ -49,10 +49,10 @@ hexo.extend.filter.register('after_post_render', function(data) {
     toolsHtml += '</div>';
 
     // 添加高度限制和展开按钮
-    let expandBtnHtml = '';
-    if (highlightHeightLimit) {
-      expandBtnHtml = '<div class="code-expand-btn"><i class="fas fa-angle-double-down"></i></div>';
-    }
+    // let expandBtnHtml = '';
+    // if (highlightHeightLimit) {
+    //   expandBtnHtml = '<div class="code-expand-btn"><i class="fas fa-angle-double-down"></i></div>';
+    // }
 
     // 组装最终的代码块
     codeBlock = '<div class="highlight-wrap">' + toolsHtml + codeContent[0] + expandBtnHtml + '</div>';

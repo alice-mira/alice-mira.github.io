@@ -557,34 +557,34 @@ function initCodeBlockFolding() {
     codeBlocks = document.querySelectorAll('pre');
   }
 
-  codeBlocks.forEach(block => {
-    // Check if code block height exceeds max height
-    if (block.offsetHeight > maxHeight) {
-      // Create wrapper div
-      const wrapper = document.createElement('div');
-      wrapper.className = 'code-block-wrapper collapsed';
+  // codeBlocks.forEach(block => {
+  //   // Check if code block height exceeds max height
+  //   if (block.offsetHeight > maxHeight) {
+  //     // Create wrapper div
+  //     const wrapper = document.createElement('div');
+  //     wrapper.className = 'code-block-wrapper collapsed';
 
-      // Insert wrapper before the code block
-      block.parentNode.insertBefore(wrapper, block);
+  //     // Insert wrapper before the code block
+  //     block.parentNode.insertBefore(wrapper, block);
 
-      // Move code block inside wrapper
-      wrapper.appendChild(block);
+  //     // Move code block inside wrapper
+  //     wrapper.appendChild(block);
 
-      // Create toggle button
-      const toggleButton = document.createElement('button');
-      toggleButton.className = 'code-toggle';
+  //     // Create toggle button
+  //     const toggleButton = document.createElement('button');
+  //     toggleButton.className = 'code-toggle';
 
-      // Add toggle button to wrapper
-      wrapper.appendChild(toggleButton);
+  //     // Add toggle button to wrapper
+  //     wrapper.appendChild(toggleButton);
 
-      // Add click event to toggle button
-      toggleButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        wrapper.classList.toggle('collapsed');
-        wrapper.classList.toggle('expanded');
-      });
-    }
-  });
+  //     // Add click event to toggle button
+  //     toggleButton.addEventListener('click', function(e) {
+  //       e.preventDefault();
+  //       wrapper.classList.toggle('collapsed');
+  //       wrapper.classList.toggle('expanded');
+  //     });
+  //   }
+  // });
 }
 
 // ===== Author Card Background Animation =====

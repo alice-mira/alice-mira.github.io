@@ -684,7 +684,7 @@ p {
   flex-wrap: wrap;
 }
 
-.tag {
+.tag:not(pre .tag) {
   font-size: 0.75rem;
   padding: 0.25rem 0.75rem;
   background: var(--tag-background-color);
@@ -693,7 +693,7 @@ p {
   transition: all var(--transition-fast);
 }
 
-.tag:hover {
+.tag:hover:not(pre .tag) {
   background: var(--accent-color);
   color: white;
   border-color: var(--accent-color);
