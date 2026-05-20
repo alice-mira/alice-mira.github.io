@@ -18,7 +18,7 @@
           - }
           - var defaultCover = theme.theme_config.post && theme.theme_config.post.default_cover ? theme.theme_config.post.default_cover : '/images/19.png'
           - var coverPath = page.cover ? getCoverPath(page.cover, page.path) : defaultCover
-          img(src=url_for(coverPath), alt=page.title)
+          img(src=url_for(coverPath + "?rand=" + page.title), alt=page.title, loading="lazy")
 
       .post-meta
         .post-category
