@@ -8,7 +8,8 @@ html(lang=config.language)
     meta(name="apple-mobile-web-app-capable", content="yes")
     meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent")
 
-    title= page_title ? page_title + ' - ' + config.title : config.title
+    title=  page.title ?  page.title + ' - ' + config.title : config.title
+    meta(name="description", content=page.ai_summary)
 
     //- Dark mode script to prevent flash
     if theme.features && theme.features.dark_mode
