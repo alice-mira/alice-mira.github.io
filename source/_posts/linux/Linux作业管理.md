@@ -1,6 +1,6 @@
 ---
-title: Linux硬盘格式化
-date: 2026-05-26 08:57:25
+title: Linux作业管理
+date: 2026-05-27 08:57:25
 tags: [linux,bash,命令]
 ---
 
