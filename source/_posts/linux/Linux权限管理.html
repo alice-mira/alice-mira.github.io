@@ -1,0 +1,226 @@
+---
+title: Linux权限管理
+date: 2026-06-11 09:11:52
+tags: [linux,bash,命令]
+---
+
+<h3>Linux权限管理的基本概念</h3>
+<p>Linux系统中的权限管理是保障系统安全的核心机制。每个文件和目录都有特定的权限设置，决定哪些用户或用户组可以对其进行读取、写入或执行操作。权限分为三类：</p>
+<ol>
+<li><strong>所有者权限(u)</strong>：文件创建者拥有的权限</li>
+<li><strong>所属组权限(g)</strong>：文件所属用户组成员拥有的权限</li>
+<li><strong>其他用户权限(o)</strong>：系统中其他所有用户的权限</li>
+</ol>
+<p>权限通过字符或数字表示：</p>
+<ul>
+<li>字符表示法：
+<ul>
+<li><code>r</code>(read)：读取权限</li>
+<li><code>w</code>(write)：写入权限</li>
+<li><code>x</code>(execute)：执行权限</li>
+</ul>
+</li>
+<li>数字表示法（八进制）：
+<ul>
+<li><code>4</code>对应读取</li>
+<li><code>2</code>对应写入</li>
+<li><code>1</code>对应执行</li>
+<li>通过数字相加组合表示权限（如7=4+2+1表示rwx）</li>
+</ul>
+</li>
+</ul>
+<h3>查看文件和目录权限</h3>
+<p>使用<a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.ls.md" target="_blank"><code>ls -l</code></a>命令可以详细查看文件或目录的权限信息。典型输出格式如下：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><code>-rw-r--r-- 1 user group 1024 Jan 1 10:00 file.txt
+drwxr-xr-x 2 user group 4096 Jan 1 10:00 directory/
+</code></pre>
+<p>权限字段分解：</p>
+<ul>
+<li>第1个字符：文件类型
+<ul>
+<li><code>-</code>：普通文件</li>
+<li><code>d</code>：目录</li>
+<li><code>l</code>：符号链接</li>
+<li>其他特殊文件类型（如c,b,p,s等）</li>
+</ul>
+</li>
+<li>后续9个字符：每3个一组分别表示所有者、所属组和其他用户权限
+<ul>
+<li><code>rwx</code>：可读可写可执行</li>
+<li><code>r--</code>：仅可读</li>
+<li><code>r-x</code>：可读可执行</li>
+</ul>
+</li>
+</ul>
+<h3>修改文件权限</h3>
+<p><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" target="_blank"><code>chmod</code></a>命令用于修改文件或目录的权限，支持两种修改方式：</p>
+<ol>
+<li>
+<p><strong>字符方式</strong>（适合对现有权限进行增量修改）：</p>
+<ul>
+<li>操作对象：
+<ul>
+<li><a href="https://xplanc.org/primers/document/zh/03.HTML/EX.HTML%20%E5%85%83%E7%B4%A0/EX.u.md" target="_blank"><code>u</code></a>：所有者</li>
+<li><code>g</code>：所属组</li>
+<li><code>o</code>：其他用户</li>
+<li><a href="https://xplanc.org/primers/document/zh/03.HTML/EX.HTML%20%E5%85%83%E7%B4%A0/EX.a.md" target="_blank"><code>a</code></a>：所有用户</li>
+</ul>
+</li>
+<li>运算符：
+<ul>
+<li><code>+</code>：添加权限</li>
+<li><code>-</code>：移除权限</li>
+<li><code>=</code>：设置精确权限</li>
+</ul>
+</li>
+<li>示例：
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span><span>u+x</span><span> </span><span>script.sh</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>为所有者添加执行权限</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span><span>go-w</span><span> </span><span>file.txt</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>移除组和其他用户的写入权限</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token assign-left variable" style="color: rgb(255, 102, 102);"><span>a</span></span><span class="token operator" style="color: rgb(137, 221, 255);"><span>=</span></span><span class=""><span>rw</span><span> </span><span>file.txt</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>设置所有用户为可读可写</span></span></code></code></pre></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>数字方式</strong>（适合批量设置精确权限）：</p>
+<ul>
+<li>用三位八进制数表示权限</li>
+<li>示例：
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>755</span></span><span class=""><span> </span><span>file.txt</span><span>   </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>rwxr-xr-x</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>644</span></span><span class=""><span> </span><span>file.txt</span><span>   </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>rw-r--r--</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>700</span></span><span class=""><span> </span><span>secret.txt</span><span> </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>仅所有者有全部权限</span></span></code></code></pre></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3>修改文件所有者和所属组</h3>
+<ol>
+<li>
+<p><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chown.md" target="_blank"><code>chown</code></a>命令：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chown.md" rel="nofollow" style="color: unset;">chown</a></span><span class=""><span> </span><span>user:group</span><span> </span><span>file.txt</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>同时修改所有者和所属组</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chown.md" rel="nofollow" style="color: unset;">chown</a></span><span class=""><span> </span><span>user</span><span> </span><span>file.txt</span><span>        </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>仅修改所有者</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chown.md" rel="nofollow" style="color: unset;">chown</a></span><span class=""><span> </span><span>:group</span><span> </span><span>file.txt</span><span>      </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>仅修改所属组</span></span></code></code></pre></pre>
+<ul>
+<li>常用选项：
+<ul>
+<li><code>-R</code>：递归修改目录下所有文件</li>
+<li><code>--reference=参照文件</code>：使用参照文件的属性</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chgrp.md" target="_blank"><code>chgrp</code></a>命令：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chgrp.md" rel="nofollow" style="color: unset;">chgrp</a></span><span class=""><span> </span><span>developers</span><span> </span><span>project/</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chgrp.md" rel="nofollow" style="color: unset;">chgrp</a></span><span class=""><span> </span><span>-R</span><span> </span><span>staff</span><span> </span><span>/shared</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>递归修改</span></span></code></code></pre></pre>
+</li>
+</ol>
+<h3>特殊权限设置</h3>
+<ol>
+<li>
+<p><strong>SetUID</strong>（suid）：</p>
+<ul>
+<li>作用：允许用户以文件所有者的身份执行文件</li>
+<li>典型应用：/usr/bin/passwd</li>
+<li>设置方法：
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span><span>u+s</span><span> </span><span>/usr/bin/special_program</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>4755</span></span><span class=""><span> </span><span>/usr/bin/special_program</span></span></code></code></pre></pre>
+</li>
+<li>显示：在所有者执行位显示为<a href="https://xplanc.org/primers/document/zh/03.HTML/EX.HTML%20%E5%85%83%E7%B4%A0/EX.s.md" target="_blank"><code>s</code></a>（如<code>-rwsr-xr-x</code>）</li>
+</ul>
+</li>
+<li>
+<p><strong>SetGID</strong>（sgid）：</p>
+<ul>
+<li>目录应用：新创建的文件继承目录的所属组</li>
+<li>文件应用：以文件所属组的身份执行</li>
+<li>设置方法：
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span><span>g+s</span><span> </span><span>/shared/projects</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>2775</span></span><span class=""><span> </span><span>/shared/projects</span></span></code></code></pre></pre>
+</li>
+<li>显示：在组执行位显示为<a href="https://xplanc.org/primers/document/zh/03.HTML/EX.HTML%20%E5%85%83%E7%B4%A0/EX.s.md" target="_blank"><code>s</code></a></li>
+</ul>
+</li>
+<li>
+<p><strong>Sticky Bit</strong>：</p>
+<ul>
+<li>作用：在共享目录中，只有文件所有者才能删除/重命名自己的文件</li>
+<li>典型应用：/tmp目录</li>
+<li>设置方法：
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span><span>+t</span><span> </span><span>/shared/upload</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>1777</span></span><span class=""><span> </span><span>/shared/upload</span></span></code></code></pre></pre>
+</li>
+<li>显示：在其他用户执行位显示为<code>t</code></li>
+</ul>
+</li>
+</ol>
+<h3>默认权限设置</h3>
+<p><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.umask.md" target="_blank"><code>umask</code></a>决定了新建文件和目录的默认权限：</p>
+<ul>
+<li>umask值通过屏蔽权限位实现</li>
+<li>文件默认权限：666 - umask</li>
+<li>目录默认权限：777 - umask</li>
+</ul>
+<p>查看当前umask：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token builtin class-name" style="color: rgb(242, 255, 0);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.umask.md" rel="nofollow" style="color: unset;">umask</a></span><span class=""><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>通常显示0022或0002</span></span></code></code></pre></pre>
+<p>设置umask：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token builtin class-name" style="color: rgb(242, 255, 0);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.umask.md" rel="nofollow" style="color: unset;">umask</a></span><span class=""><span> </span><span>0027</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>结果权限：文件640，目录750</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token builtin class-name" style="color: rgb(242, 255, 0);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.umask.md" rel="nofollow" style="color: unset;">umask</a></span><span class=""><span> </span><span>0002</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>更宽松的设置</span></span></code></code></pre></pre>
+<p>永久设置：可添加到~/.bashrc或/etc/profile中</p>
+<h3>ACL权限管理</h3>
+<p>ACL（Access Control List）提供更细粒度的权限控制：</p>
+<ol>
+<li>
+<p>查看ACL：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class=""><span>getfacl</span><span> </span><span>/shared/docs</span></span></code></code></pre></pre>
+</li>
+<li>
+<p>设置ACL：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class=""><span>setfacl</span><span> </span><span>-m</span><span> </span><span>u:alice:rwx</span><span> </span><span>/shared/docs</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>为用户alice添加权限</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span>setfacl</span><span> </span><span>-m</span><span> </span><span>g:developers:rw-</span><span> </span><span>/shared/docs</span><span>
+</span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""><span>setfacl</span><span> </span><span>-x</span><span> </span><span>u:bob</span><span> </span><span>/shared/docs</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>移除bob的ACL条目</span></span></code></code></pre></pre>
+</li>
+<li>
+<p>默认ACL（影响新建文件）：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class=""><span>setfacl</span><span> </span><span>-d</span><span> </span><span>-m</span><span> </span><span>u:alice:rwx</span><span> </span><span>/shared/docs</span></span></code></code></pre></pre>
+</li>
+<li>
+<p>递归设置：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class=""><span>setfacl</span><span> </span><span>-R</span><span> </span><span>-m</span><span> </span><span>u:alice:r-x</span><span> </span><span>/projects</span></span></code></code></pre></pre>
+</li>
+</ol>
+<h3>实际应用场景</h3>
+<ol>
+<li>
+<p>Web服务器目录：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chown.md" rel="nofollow" style="color: unset;">chown</a></span><span class=""><span> </span><span>-R</span><span> </span><span>www-data:www-data</span><span> </span><span>/var/www</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.find.md" rel="nofollow" style="color: unset;">find</a></span><span class=""><span> </span><span>/var/www</span><span> </span><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.type.md" rel="nofollow" style="color: unset;">-type</a><span> </span><span>d</span><span> </span><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.exec.md" rel="nofollow" style="color: unset;">-exec</a><span> </span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>755</span></span><span class=""><span> </span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>{</span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>}</span></span><span class=""><span> </span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>\</span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>;</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.find.md" rel="nofollow" style="color: unset;">find</a></span><span class=""><span> </span><span>/var/www</span><span> </span><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.type.md" rel="nofollow" style="color: unset;">-type</a><span> </span><span>f</span><span> </span><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.exec.md" rel="nofollow" style="color: unset;">-exec</a><span> </span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>644</span></span><span class=""><span> </span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>{</span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>}</span></span><span class=""><span> </span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>\</span></span><span class="token punctuation" style="color: rgb(137, 221, 255);"><span>;</span></span></code></code></pre></pre>
+</li>
+<li>
+<p>共享协作目录：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.mkdir.md" rel="nofollow" style="color: unset;">mkdir</a></span><span class=""><span> </span><span>/shared/team</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chgrp.md" rel="nofollow" style="color: unset;">chgrp</a></span><span class=""><span> </span><span>developers</span><span> </span><span>/shared/team</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>3</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>2775</span></span><span class=""><span> </span><span>/shared/team</span><span>  </span></span><span class="token comment" style="color: rgb(97, 97, 97);"><span>#</span><span> </span><span>设置SGID</span></span><span class=""><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>4</span></span><span>setfacl</span><span> </span><span>-d</span><span> </span><span>-m</span><span> </span><span>g:developers:rwx</span><span> </span><span>/shared/team</span></code></code></pre></pre>
+</li>
+<li>
+<p>用户私有目录：</p>
+<pre style="background: transparent; margin: 0px; padding: 0px;"><pre class="language-bash" style="text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none; overflow: auto; position: relative; margin: 0.5em 0px; padding: 1.25em 1em;"><code class="language-bash" style="white-space: pre; text-align: left; word-spacing: normal; word-break: normal; overflow-wrap: normal; color: rgb(238, 238, 238); background: rgb(47, 47, 47); font-family: &quot;Roboto Mono&quot;, monospace; font-size: 1em; line-height: 1.5em; tab-size: 4; hyphens: none;"><code class="language-bash" style="white-space: pre;"><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>1</span></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>700</span></span><span class=""><span> </span><span>/home/username</span><span>
+</span></span><span class="comment linenumber react-syntax-highlighter-line-number" style="color: rgb(97, 97, 97); display: inline-block; min-width: 1em; padding-right: 1em; text-align: right; user-select: none;"><span>2</span></span><span class=""></span><span class="token function" style="color: rgb(199, 146, 234);"><a href="https://xplanc.org/primers/document/zh/10.Bash/90.%E5%B8%AE%E5%8A%A9%E6%89%8B%E5%86%8C/EX.chmod.md" rel="nofollow" style="color: unset;">chmod</a></span><span class=""><span> </span></span><span class="token number" style="color: rgb(253, 145, 112);"><span>600</span></span><span class=""><span> </span><span>/home/username/.ssh/*</span></span></code></code></pre></pre>
+</li>
+</ol>
+<h3>总结</h3>
+<p>Linux权限管理是一个层次化的安全体系：</p>
+<ol>
+<li>基础权限：控制三类用户的基本访问</li>
+<li>特殊权限：解决特定场景下的权限需求</li>
+<li>ACL：提供更精细的权限分配</li>
+</ol>
+<p>最佳实践建议：</p>
+<ul>
+<li>遵循最小权限原则</li>
+<li>对敏感文件设置严格权限（如600）</li>
+<li>定期审计关键目录的权限设置</li>
+<li>在共享环境中合理使用SGID和Sticky bit</li>
+<li>对复杂权限需求使用ACL而非过度放宽基础权限</li>
+</ul>
